@@ -55,4 +55,6 @@ EXPOSE 80
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 # Apache,PHP==========End
 
-
+# Node==========Start
+RUN apt-get install -y nodejs
+# Node==========End
