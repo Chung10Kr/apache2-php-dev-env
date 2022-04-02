@@ -2,17 +2,15 @@
 FROM ubuntu:18.04
 MAINTAINER Chung10 <coohg93@hanmail.net>
 
-ARG GITPATH=https://github.com/Chung10Kr/phpBase.git 
-
 # 업데이트
-RUN apt update
+RUN apt update && apt-get update -y
 
-# Git==========Start
-# Git 설치
-RUN apt-get install git -y
-# app 디렉토리 선정
+# Git 설치==========Start
 WORKDIR '/home/app'
-RUN git clone ${GITPATH}
+ARG Git=https://github.com/Chung10Kr/apache2-php-dev-env.git
+RUN apt-get install git -y
+RUN git clone ${Git}
+
 # Git==========End
 
 # Apache,PHP==========Start
@@ -28,8 +26,6 @@ RUN apt install software-properties-common -y
  
 # PPA-php 설치 (php 7.3 버전 사용을 위해)
 RUN add-apt-repository ppa:ondrej/php
-# 업데이트
-RUN apt update
  
 # 아래의 설정으로 타임존 설정을 유예하는 것이기 때문에 차후에 따로 설정을 해주어야 합니다.
 ENV DEBIAN_FRONTEND=noninteractive 
@@ -40,9 +36,10 @@ RUN apt install php7.3 php7.3-common php7.3-cli -y
 RUN apt install php7.3-bcmath php7.3-bz2 php7.3-curl php7.3-gd php7.3-intl php7.3-json php7.3-mbstring php7.3-readline php7.3-xml php7.3-zip -y
 # php와 웹 서버(apache2)와 연결
 RUN apt install libapache2-mod-php7.3
- 
+
+
 # 이미지에 소스 코드 카피
-COPY ./app/index.php /home/app/index.php
+COPY index.php /home/app/index.php
  
 # 가상 호스트 설정 이미지에 카피
 COPY ./config/vhost.conf /etc/apache2/sites-available/vhost.conf
@@ -56,5 +53,5 @@ CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 # Apache,PHP==========End
 
 # Node==========Start
-RUN apt-get install -y nodejs
+# RUN apt-get install -y nodejs
 # Node==========End
