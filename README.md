@@ -25,8 +25,7 @@ docker build -t apache2-php .
 
 #### Git Clone option
 ```bash
-docker build -t apache2-php --build-arg Git=https://github.com/Chung10Kr/phpBase.git .
-```
+docker build -t apache2-php --build-arg Git=https://github.com/Chung10Kr/phpBase.git .```
 
 ## 6. Run Container
 ```bash

@@ -7,9 +7,9 @@ RUN apt update && apt-get update -y
 
 # Git 설치==========Start
 WORKDIR '/home/app'
-ARG Git=https://github.com/Chung10Kr/apache2-php-dev-env.git
+ARG Git=None
 RUN apt-get install git -y
-RUN git clone ${Git}
+RUN if [ "$Git" != "None" ] ; then git clone ${Git} ; fi
 
 # Git==========End
 
@@ -37,9 +37,11 @@ RUN apt install php7.3-bcmath php7.3-bz2 php7.3-curl php7.3-gd php7.3-intl php7.
 # php와 웹 서버(apache2)와 연결
 RUN apt install libapache2-mod-php7.3
 
+# Time Zone
+#RUN echo "date.timezone=Asia/Seoul" > $PHP_INI_DIR/conf.d/date_timezone.ini
 
 # 이미지에 소스 코드 카피
-COPY index.php /home/app/index.php
+COPY app/ /home/app/
  
 # 가상 호스트 설정 이미지에 카피
 COPY ./config/vhost.conf /etc/apache2/sites-available/vhost.conf
